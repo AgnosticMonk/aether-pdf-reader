@@ -15,10 +15,20 @@ android {
         versionName = "1.0"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("../keystore/release.jks")
+            storePassword = System.getenv("AETHER_KEYSTORE_PASS") ?: ""
+            keyAlias = "aether-reader"
+            keyPassword = System.getenv("AETHER_KEYSTORE_PASS") ?: ""
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
